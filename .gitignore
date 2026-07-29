@@ -1,7 +1,16 @@
-bin
-include
-lib
-.Python
-tests/
-.envrc
-__pycache__
+# PyCharm
+.idea/
+
+# Environnement virtuel Python
+.venv/
+
+# Fichiers temporaires Python
+__pycache__/
+*.py[cod]
+
+# Cache de Pytest
+.pytest_cache/
+
+# Rapports de couverture
+.coverage
+htmlcov/
