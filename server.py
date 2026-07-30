@@ -131,6 +131,15 @@ def purchasePlaces():
             competitions=competitions,
         )
 
+    # Refus si la compétition ne possède pas assez de places
+    if placesRequired > int(competition["numberOfPlaces"]):
+        flash("Il n’y a pas assez de places disponibles.")
+        return render_template(
+            "welcome.html",
+            club=club,
+            competitions=competitions,
+        )
+
     # Déduction des places réservées
     competition["numberOfPlaces"] = int(competition["numberOfPlaces"]) - placesRequired
 
