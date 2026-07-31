@@ -159,10 +159,15 @@ def purchasePlaces():
 
 # =========================
 # AFFICHAGE PUBLIC DES POINTS
-# FONCTIONNALITÉ À DÉVELOPPER EN PHASE 2
 # =========================
 
-# TODO: Add route for points display
+
+@app.route("/points-clubs")
+def afficher_points_clubs():
+    return render_template(
+        "points_clubs.html",
+        clubs=clubs,
+    )
 
 
 # =========================
