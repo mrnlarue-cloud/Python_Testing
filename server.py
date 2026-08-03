@@ -106,6 +106,11 @@ def verifier_limite_places(nombre_places):
     return nombre_places <= 12
 
 
+def verifier_points_suffisants(points, nombre_places):
+    # Vérifie les points disponibles
+    return points >= nombre_places
+
+
 @app.route("/purchasePlaces", methods=["POST"])
 def purchasePlaces():
     # Recherche de la compétition choisie
@@ -119,7 +124,7 @@ def purchasePlaces():
     placesRequired = int(request.form["places"])
 
     # Refus si le club demande plus de 12 places
-    if placesRequired > 12:
+    if not verifier_limite_places(placesRequired):
         flash("Vous ne pouvez pas réserver plus de douze places")
         return render_template(
             "welcome.html",
@@ -128,7 +133,7 @@ def purchasePlaces():
         )
 
     # Refus si le club ne possède pas assez de points
-    if placesRequired > int(club["points"]):
+    if not verifier_points_suffisants(int(club["points"]), placesRequired):
         flash("Vous n’avez pas assez de points.")
         return render_template(
             "welcome.html",
