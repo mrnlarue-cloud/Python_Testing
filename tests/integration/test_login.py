@@ -1,6 +1,7 @@
 import server
 from server import app
 
+
 def test_email_inconnu_message_erreur():
     """Vérifie qu'un e-mail inconnu ne fait pas planter l'application."""
 
