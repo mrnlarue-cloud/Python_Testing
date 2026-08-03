@@ -101,6 +101,11 @@ def book(competition, club):
 # =========================
 
 
+def verifier_limite_places(nombre_places):
+    # Maximum 12 places
+    return nombre_places <= 12
+
+
 @app.route("/purchasePlaces", methods=["POST"])
 def purchasePlaces():
     # Recherche de la compétition choisie
