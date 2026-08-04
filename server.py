@@ -121,6 +121,11 @@ def calculer_points_restants(points, nombre_places):
     return points - nombre_places
 
 
+def calculer_places_restantes(places_disponibles, nombre_places):
+    # Calcule les places restantes
+    return places_disponibles - nombre_places
+
+
 @app.route("/purchasePlaces", methods=["POST"])
 def purchasePlaces():
     # Recherche d'une compétition
@@ -163,7 +168,9 @@ def purchasePlaces():
         )
 
     # Déduction des places
-    competition["numberOfPlaces"] = int(competition["numberOfPlaces"]) - placesRequired
+    competition["numberOfPlaces"] = calculer_places_restantes(
+        int(competition["numberOfPlaces"]), placesRequired
+    )
 
     # Déduction des points
     club["points"] = calculer_points_restants(int(club["points"]), placesRequired)
