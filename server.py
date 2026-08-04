@@ -102,33 +102,38 @@ def book(competition, club):
 
 
 def verifier_limite_places(nombre_places):
-    # Maximum 12 places
+    # Max 12 places
     return nombre_places <= 12
 
 
 def verifier_points_suffisants(points, nombre_places):
-    # Vérifie les points disponibles
+    # Vérifie qu'il y a assez de points
     return points >= nombre_places
 
 
 def verifier_places_disponibles(places_disponibles, nombre_places):
-    # Vérifie les places disponibles
+    # Vérifie les places dispos
     return places_disponibles >= nombre_places
+
+
+def calculer_points_restants(points, nombre_places):
+    # Calcule les points restants
+    return points - nombre_places
 
 
 @app.route("/purchasePlaces", methods=["POST"])
 def purchasePlaces():
-    # Recherche de la compétition choisie
+    # Recherche d'une compétition
     competition = [c for c in competitions if c["name"] == request.form["competition"]][
         0
     ]
 
-    # Recherche du club qui réserve
+    # Recherche d'un club
     club = [c for c in clubs if c["name"] == request.form["club"]][0]
 
     placesRequired = int(request.form["places"])
 
-    # Refus si le club demande plus de 12 places
+    # Limite de 12 places
     if not verifier_limite_places(placesRequired):
         flash("Vous ne pouvez pas réserver plus de douze places")
         return render_template(
@@ -137,7 +142,7 @@ def purchasePlaces():
             competitions=competitions,
         )
 
-    # Refus si le club ne possède pas assez de points
+    # Points insuffisants
     if not verifier_points_suffisants(int(club["points"]), placesRequired):
         flash("Vous n’avez pas assez de points.")
         return render_template(
@@ -146,7 +151,7 @@ def purchasePlaces():
             competitions=competitions,
         )
 
-    # Refus si la compétition ne possède pas assez de places
+    # Places insuffisantes
     if not verifier_places_disponibles(
         int(competition["numberOfPlaces"]), placesRequired
     ):
@@ -157,16 +162,15 @@ def purchasePlaces():
             competitions=competitions,
         )
 
-    # Déduction des places réservées
+    # Déduction des places
     competition["numberOfPlaces"] = int(competition["numberOfPlaces"]) - placesRequired
 
-    # Déduction des points utilisés par le club
-    club["points"] = int(club["points"]) - placesRequired
+    # Déduction des points
+    club["points"] = calculer_points_restants(int(club["points"]), placesRequired)
 
-    # Confirmation de la réservation
+    # Confirmation
     flash("Great-booking complete!")
 
-    # Retour sur la page récapitulative du club
     return render_template(
         "welcome.html",
         club=club,
