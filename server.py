@@ -111,6 +111,11 @@ def verifier_points_suffisants(points, nombre_places):
     return points >= nombre_places
 
 
+def verifier_places_disponibles(places_disponibles, nombre_places):
+    # Vérifie les places disponibles
+    return places_disponibles >= nombre_places
+
+
 @app.route("/purchasePlaces", methods=["POST"])
 def purchasePlaces():
     # Recherche de la compétition choisie
@@ -142,7 +147,9 @@ def purchasePlaces():
         )
 
     # Refus si la compétition ne possède pas assez de places
-    if placesRequired > int(competition["numberOfPlaces"]):
+    if not verifier_places_disponibles(
+        int(competition["numberOfPlaces"]), placesRequired
+    ):
         flash("Il n’y a pas assez de places disponibles.")
         return render_template(
             "welcome.html",
