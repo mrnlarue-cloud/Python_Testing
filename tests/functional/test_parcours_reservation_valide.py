@@ -19,7 +19,7 @@ def test_parcours_reservation_valide():
         # Vérifie que la page d'accueil est chargée
         assert "GUDLFT Registration" in navigateur.title
 
-        # Recherche le champ e-mail avec le HTML
+        # Recherche le champ e-mail avec son nom HTML
         champ_email = navigateur.find_element(By.NAME, "email")
 
         # Remplit l'e-mail
@@ -37,6 +37,17 @@ def test_parcours_reservation_valide():
         # Vérifie que la connexion a réussi
         assert "john@simplylift.co" in contenu_page
         assert "Points available: 13" in contenu_page
+
+        # Recherche le lien de réservation avec son texte visible
+        lien_reservation = navigateur.find_element(By.LINK_TEXT, "Book Places")
+        lien_reservation.click()
+
+        # Récupère le texte de la page de réservation
+        contenu_page = navigateur.find_element(By.TAG_NAME, "body").text
+
+        # Vérifie la page de réservation
+        assert "Spring Festival" in contenu_page
+        assert "Places available: 25" in contenu_page
 
     finally:
         # Ferme toujours le navigateur
