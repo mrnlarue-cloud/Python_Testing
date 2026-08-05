@@ -49,6 +49,23 @@ def test_parcours_reservation_valide():
         assert "Spring Festival" in contenu_page
         assert "Places available: 25" in contenu_page
 
+        # Recherche le champ du nombre de places
+        champ_places = navigateur.find_element(By.NAME, "places")
+
+        # Demande une place
+        champ_places.send_keys("1")
+
+        # Recherche le bouton de réservation
+        bouton_reservation = navigateur.find_element(By.TAG_NAME, "button")
+        bouton_reservation.click()
+
+        # Récupère le résultat de la réservation
+        contenu_page = navigateur.find_element(By.TAG_NAME, "body").text
+
+        # Vérifie que la réservation a réussi
+        assert "Great-booking complete!" in contenu_page
+        assert "Points available: 12" in contenu_page
+
     finally:
         # Ferme toujours le navigateur
         navigateur.quit()
