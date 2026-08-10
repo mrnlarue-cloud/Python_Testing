@@ -100,6 +100,8 @@ Python_Testing/
 ├── clubs.json
 ├── competitions.json
 ├── pyproject.toml
+├── rapport_performances.md
+├── rapport_tests.md
 ├── README.md
 ├── requirements.txt
 └── server.py
