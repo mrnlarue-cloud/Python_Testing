@@ -22,20 +22,30 @@ def loadCompetitions():
         return listOfCompetitions
 
 
+# =========================
+# VÉRIFICATION DES DONNÉES CHARGÉES
+# =========================
+
+
 def verifier_club_existant(email, liste_clubs):
+    # Parcours tous les clubs JSON
     for club in liste_clubs:
+        # Retourne True dès que l'adresse e-mail est trouvée
         if club["email"] == email:
             return True
 
-    # False si aucun club ne correspond
+    # Retourne False si aucun club ne correspond
     return False
 
 
 def verifier_competition_existante(nom_competition, liste_competitions):
+    # Parcours toutes les compétitions JSON
     for competition in liste_competitions:
+        # Retourne True dès que le nom de la compétition est trouvé
         if competition["name"] == nom_competition:
             return True
 
+    # Retourne False si aucune compétition ne correspond
     return False
 
 
@@ -99,24 +109,23 @@ def showSummary():
 
 @app.route("/book/<competition>/<club>")
 def book(competition, club):
-    foundClub = [c for c in clubs if c["name"] == club][0]
+    # Vérifie que la compét existe
+    if not verifier_competition_existante(competition, competitions):
+        flash("Désolé, cette compétition n’a pas été trouvée.")
 
+        # Redirige vers la page d'accueil
+        return redirect(url_for("index"))
+
+    # Recherche le club et la compét
+    foundClub = [c for c in clubs if c["name"] == club][0]
     foundCompetition = [c for c in competitions if c["name"] == competition][0]
 
-    if foundClub and foundCompetition:
-        return render_template(
-            "booking.html",
-            club=foundClub,
-            competition=foundCompetition,
-        )
-    else:
-        flash("Something went wrong-please try again")
-
-        return render_template(
-            "welcome.html",
-            club=club,
-            competitions=competitions,
-        )
+    # Affiche la page de résa
+    return render_template(
+        "booking.html",
+        club=foundClub,
+        competition=foundCompetition,
+    )
 
 
 # =========================
