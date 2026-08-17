@@ -2,7 +2,7 @@ import server
 
 
 def test_affichage_public_points(monkeypatch):
-    # Faux club pour le test
+    # Faux clubs pour le test
     clubs_tests = [
         {
             "name": "Club X",
@@ -18,16 +18,20 @@ def test_affichage_public_points(monkeypatch):
 
     monkeypatch.setattr(server, "clubs", clubs_tests)
 
-    # Test Flask
+    # Client de test Flask
     client_test = server.app.test_client()
 
-    # Accès direct à la page sans besoin de connexion
-    reponse = client_test.get("/points-clubs")
-
-    # Lecture contenu
+    # Vérification du lien sur la page d'accueil
+    reponse = client_test.get("/")
     contenu_reponse = reponse.get_data(as_text=True)
 
-    # Vérifications status et informations
+    assert "/points-clubs" in contenu_reponse
+
+    # Accès à la page publique des points
+    reponse = client_test.get("/points-clubs")
+    contenu_reponse = reponse.get_data(as_text=True)
+
+    # Vérification des points affichés
     assert reponse.status_code == 200
     assert "Club X" in contenu_reponse
     assert "37" in contenu_reponse
