@@ -22,6 +22,15 @@ def loadCompetitions():
         return listOfCompetitions
 
 
+def verifier_club_existant(email, liste_clubs):
+    for club in liste_clubs:
+        if club["email"] == email:
+            return True
+
+    # False si aucun club ne correspond
+    return False
+
+
 # =========================
 # CONFIGURATION DE FLASK
 # =========================
@@ -55,11 +64,17 @@ def index():
 
 @app.route("/showSummary", methods=["POST"])
 def showSummary():
-    clubs_trouves = [club for club in clubs if club["email"] == request.form["email"]]
+    email = request.form["email"]
 
-    if not clubs_trouves:
-        return "Désolé, cette adresse e-mail n’a pas été trouvée."
+    # Vérifie que l'adresse e-mail correspond à un club existant
+    if not verifier_club_existant(email, clubs):
+        flash("Désolé, cette adresse e-mail n’a pas été trouvée.")
 
+        # Redirige vers la page d'accueil
+        return redirect(url_for("index"))
+
+    # Recherche le club correspondant à l'adresse e-mail
+    clubs_trouves = [club for club in clubs if club["email"] == email]
     club = clubs_trouves[0]
 
     return render_template(

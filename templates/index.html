@@ -6,6 +6,12 @@
 </head>
 <body>
     <h1>Welcome to the GUDLFT Registration Portal!</h1>
+
+    <!-- Affiche le message d'erreur -->
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+
     Please enter your secretary email to continue:
     <form action="showSummary" method="post">
         <label for="email">Email:</label>
