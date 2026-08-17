@@ -43,3 +43,5 @@ def test_refus_plus_de_douze_participants(monkeypatch):
     assert clubs_test[0]["points"] == "20"
     assert competition_test[0]["numberOfPlaces"] == "25"
     assert "Vous ne pouvez pas réserver plus de douze places" in contenu_reponse
+    assert "Points restants du club: 20" in contenu_reponse
+    assert "Places restantes pour Competition Test: 25" in contenu_reponse

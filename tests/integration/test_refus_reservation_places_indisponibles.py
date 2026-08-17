@@ -43,3 +43,5 @@ def test_refus_reservation_places_indisponibles(monkeypatch):
     assert clubs_test[0]["points"] == "20"
     assert competition_test[0]["numberOfPlaces"] == "4"
     assert "Il n’y a pas assez de places disponibles." in contenu_reponse
+    assert "Points restants du club: 20" in contenu_reponse
+    assert "Places restantes pour Competition Test: 4" in contenu_reponse

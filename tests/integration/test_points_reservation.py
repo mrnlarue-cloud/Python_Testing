@@ -43,3 +43,5 @@ def test_diminution_points_reservation(monkeypatch):
     # Vérification de la réponse et du nouveau solde de points
     assert reponse.status_code == 200
     assert "Points available: 10" in contenu_reponse
+    assert "Points restants du club: 10" in contenu_reponse
+    assert "Places restantes pour Competition Test: 22" in contenu_reponse

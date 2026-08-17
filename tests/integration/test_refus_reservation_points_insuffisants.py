@@ -40,8 +40,10 @@ def test_refus_reservation_si_points_insuffisants(monkeypatch):
     # Lecture du contenu renvoyé
     contenu_reponse = reponse.get_data(as_text=True)
 
-    # Vérification du refus de la réservation
+    # Vérification du refus et des valeurs restantes
     assert reponse.status_code == 200
     assert clubs_tests[0]["points"] == "4"
     assert competitions_tests[0]["numberOfPlaces"] == "25"
     assert "Vous n’avez pas assez de points." in contenu_reponse
+    assert "Points restants du club: 4" in contenu_reponse
+    assert "Places restantes pour Competition Test: 25" in contenu_reponse

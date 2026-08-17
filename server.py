@@ -173,9 +173,11 @@ def purchasePlaces():
     # Limite de 12 places
     if not verifier_limite_places(placesRequired):
         flash("Vous ne pouvez pas réserver plus de douze places")
+        # Affiche la page du club, la compète et la liste des compètes
         return render_template(
             "welcome.html",
             club=club,
+            competition=competition,
             competitions=competitions,
         )
 
@@ -185,6 +187,7 @@ def purchasePlaces():
         return render_template(
             "welcome.html",
             club=club,
+            competition=competition,
             competitions=competitions,
         )
 
@@ -196,6 +199,7 @@ def purchasePlaces():
         return render_template(
             "welcome.html",
             club=club,
+            competition=competition,
             competitions=competitions,
         )
 
@@ -213,6 +217,7 @@ def purchasePlaces():
     return render_template(
         "welcome.html",
         club=club,
+        competition=competition,
         competitions=competitions,
     )
 
