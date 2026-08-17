@@ -31,6 +31,14 @@ def verifier_club_existant(email, liste_clubs):
     return False
 
 
+def verifier_competition_existante(nom_competition, liste_competitions):
+    for competition in liste_competitions:
+        if competition["name"] == nom_competition:
+            return True
+
+    return False
+
+
 # =========================
 # CONFIGURATION DE FLASK
 # =========================
